@@ -22,7 +22,6 @@ Deep Research exports often contain inline marker tokens such as citation, entit
 ## Project layout
 
 - `src/`: plugin source code
-- `examples/`: sample Deep Research Markdown exports
 - `tests/`: automated tests
 - `manifest.json`: Obsidian plugin manifest
 - `versions.json`: Obsidian version compatibility map
