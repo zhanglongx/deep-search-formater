@@ -1,6 +1,6 @@
 {
   "name": "deep-research-formatter",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "An Obsidian plugin that normalizes ChatGPT Deep Research markdown exports.",
   "scripts": {
