@@ -5,7 +5,10 @@
   "description": "An Obsidian plugin that normalizes ChatGPT Deep Research markdown exports.",
   "scripts": {
     "build": "node esbuild.config.mjs production",
+    "build:cli": "node esbuild.config.mjs cli",
     "dev": "node esbuild.config.mjs",
+    "preformat:vault": "npm run build:cli",
+    "format:vault": "node dist/cli.js",
     "test": "vitest run"
   },
   "devDependencies": {

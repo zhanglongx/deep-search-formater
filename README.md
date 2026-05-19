@@ -42,7 +42,7 @@ Create a production build:
 npm run build
 ```
 
-This compiles the plugin to `main.js` in the repository root.
+This compiles the plugin to `main.js` in the repository root and the CLI to `dist/cli.js`.
 
 ## Development
 
@@ -100,6 +100,28 @@ Command behavior:
 - The first command cleans the entire active Markdown note.
 - The second command cleans only the current editor selection.
 - If no Deep Research markers are found, the plugin shows a notice and does nothing.
+
+## CLI usage
+
+You can also format a vault directory, or any subdirectory inside it, from the command line:
+
+```bash
+npm run format:vault -- /path/to/your/vault
+```
+
+CLI behavior:
+
+- Recursively processes `.md` files under the target directory.
+- Skips `.obsidian/`, `.git/`, and `node_modules/`.
+- Rewrites only files whose content actually changes.
+- Prints a summary of scanned files, updated files, failures, and marker counts.
+- Returns exit code `1` for invalid arguments and `2` when one or more files fail to process.
+
+Show the CLI help text:
+
+```bash
+npm run format:vault -- --help
+```
 
 ## Current marker handling
 
