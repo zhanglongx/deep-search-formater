@@ -1,6 +1,7 @@
 const TOKEN_START = "\uE200";
 const TOKEN_PART = "\uE202";
 const TOKEN_END = "\uE201";
+const TOKEN_BOUNDARY = "\uE203";
 const FRONTMATTER_DELIMITER = "---";
 
 export interface NormalizeStats {
@@ -182,11 +183,11 @@ function normalizeInlineContent(line: string, stats: NormalizeStats): Normalized
     }
 
     const token = line.slice(index, closingIndex + 1);
-    output += normalizeToken(token, stats);
+    output += `${TOKEN_BOUNDARY}${normalizeToken(token, stats)}${TOKEN_BOUNDARY}`;
     index = closingIndex + 1;
   }
 
-  return createNormalizedLine(line, cleanupLineWhitespace(output, line));
+  return createNormalizedLine(line, cleanupTokenBoundaryWhitespace(output));
 }
 
 function countRepeatedCharacters(input: string, startIndex: number, character: string): number {
@@ -313,16 +314,20 @@ function isReferenceIdentifier(input: string): boolean {
   return /^turn\d+[a-z]+\d+$/iu.test(input);
 }
 
-function cleanupLineWhitespace(line: string, originalLine: string): string {
-  if (line === originalLine) {
+function cleanupTokenBoundaryWhitespace(line: string): string {
+  if (!line.includes(TOKEN_BOUNDARY)) {
     return line;
   }
 
   let cleaned = line
-    .replace(/[ \t]+$/u, "")
-    .replace(/[ \t]+([，。！？；：,.!?;:%)\]】》」])/gu, "$1")
-    .replace(/([（([{【《「])[ \t]+/gu, "$1")
-    .replace(/(\S)[ \t]{2,}(\S)/gu, "$1 $2");
+    .replace(/\uE203{2,}/gu, TOKEN_BOUNDARY)
+    .replace(/\uE203[ \t]+$/u, TOKEN_BOUNDARY)
+    .replace(/[ \t]+\uE203(?=$)/u, TOKEN_BOUNDARY)
+    .replace(/[ \t]*\uE203[ \t]*(?=[，。！？；：,.!?;%）】》」])/gu, TOKEN_BOUNDARY)
+    .replace(/[ \t]+\uE203[ \t]+/gu, ` ${TOKEN_BOUNDARY}`)
+    .replace(/(?<=\S)\uE203[ \t]{2,}(?=\S)/gu, `${TOKEN_BOUNDARY} `)
+    .replace(/(?<=\S)[ \t]{2,}\uE203(?=\S)/gu, ` ${TOKEN_BOUNDARY}`)
+    .replace(/\uE203/gu, "");
 
   if (cleaned.trim().length === 0) {
     cleaned = "";

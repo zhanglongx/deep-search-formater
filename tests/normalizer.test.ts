@@ -31,6 +31,23 @@ describe("normalizeDeepResearchMarkdown", () => {
     expect(result.stats.urlReplaced).toBe(1);
   });
 
+  it("cleans punctuation revealed at token boundaries for removed cites", () => {
+    const input = `结论 ${wrapToken("cite", "turn1view0")} ，补充。 see ${wrapToken("cite", "turn2view0")} , note.`;
+    const result = normalizeDeepResearchMarkdown(input);
+
+    expect(result.text).toBe("结论，补充。 see, note.");
+    expect(result.stats.citeRemoved).toBe(2);
+  });
+
+  it("cleans punctuation revealed at token boundaries for replacements", () => {
+    const input =
+      `标的是 ${wrapToken("entity", "[\"stock\",\"标普500指数\",\"S&P 500 stock market index\"]")} ，另见。`;
+    const result = normalizeDeepResearchMarkdown(input);
+
+    expect(result.text).toBe("标的是 标普500指数，另见。");
+    expect(result.stats.entityReplaced).toBe(1);
+  });
+
   it("falls back safely for unknown tags and unreadable payloads", () => {
     const input =
       `A ${wrapToken("foo", "可读文字", "turn1view0")} B / C ${wrapToken("bar", "turn2search0")} D`;
@@ -95,6 +112,22 @@ describe("normalizeDeepResearchMarkdown", () => {
     const result = normalizeDeepResearchMarkdown(input);
 
     expect(result.text).toBe(["第一段", "", "第二段"].join("\n"));
+    expect(result.stats.citeRemoved).toBe(1);
+  });
+
+  it("only cleans whitespace around token boundaries without tightening ASCII parentheses", () => {
+    const input = `foo ${wrapToken("cite", "turn1view0")} f( x )`;
+    const result = normalizeDeepResearchMarkdown(input);
+
+    expect(result.text).toBe("foo f( x )");
+    expect(result.stats.citeRemoved).toBe(1);
+  });
+
+  it("collapses duplicated spaces created by removing a token inside ASCII parentheses", () => {
+    const input = `f( ${wrapToken("cite", "turn1view0")} x )`;
+    const result = normalizeDeepResearchMarkdown(input);
+
+    expect(result.text).toBe("f( x )");
     expect(result.stats.citeRemoved).toBe(1);
   });
 
