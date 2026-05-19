@@ -26,7 +26,7 @@ export function createEmptyStats(): NormalizeStats {
   };
 }
 
-export function normalizeDeepSearchMarkdown(input: string): NormalizeResult {
+export function normalizeDeepResearchMarkdown(input: string): NormalizeResult {
   const lineEnding = detectLineEnding(input);
   const lines = input.split(/\r?\n/u);
   const stats = createEmptyStats();
@@ -71,7 +71,7 @@ export function normalizeDeepSearchMarkdown(input: string): NormalizeResult {
   };
 }
 
-export function hasDeepSearchMarkers(input: string): boolean {
+export function hasDeepResearchMarkers(input: string): boolean {
   return input.includes(TOKEN_START) && input.includes(TOKEN_END);
 }
 

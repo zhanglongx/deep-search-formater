@@ -2,15 +2,15 @@ import { MarkdownView, Notice, Plugin } from "obsidian";
 
 import {
   type NormalizeResult,
-  normalizeDeepSearchMarkdown,
+  normalizeDeepResearchMarkdown,
 } from "./normalizer";
 
 const CURRENT_NOTE_COMMAND_ID = "normalize-current-note";
-const CURRENT_NOTE_COMMAND_NAME = "清理当前笔记中的 Deep Search 标记";
+const CURRENT_NOTE_COMMAND_NAME = "清理当前笔记中的 Deep Research 标记";
 const SELECTION_COMMAND_ID = "normalize-selection";
-const SELECTION_COMMAND_NAME = "清理当前选区中的 Deep Search 标记";
+const SELECTION_COMMAND_NAME = "清理当前选区中的 Deep Research 标记";
 
-export default class DeepSearchFormatterPlugin extends Plugin {
+export default class DeepResearchFormatterPlugin extends Plugin {
   async onload(): Promise<void> {
     this.addCommand({
       id: CURRENT_NOTE_COMMAND_ID,
@@ -39,10 +39,10 @@ export default class DeepSearchFormatterPlugin extends Plugin {
     }
 
     const original = editor.getValue();
-    const result = normalizeDeepSearchMarkdown(original);
+    const result = normalizeDeepResearchMarkdown(original);
 
     if (result.text === original) {
-      new Notice("未发现 Deep Search 标记。");
+      new Notice("未发现 Deep Research 标记。");
       return;
     }
 
@@ -65,9 +65,9 @@ export default class DeepSearchFormatterPlugin extends Plugin {
       return;
     }
 
-    const result = normalizeDeepSearchMarkdown(selection);
+    const result = normalizeDeepResearchMarkdown(selection);
     if (result.text === selection) {
-      new Notice("选区中未发现 Deep Search 标记。");
+      new Notice("选区中未发现 Deep Research 标记。");
       return;
     }
 
@@ -93,7 +93,8 @@ export default class DeepSearchFormatterPlugin extends Plugin {
       parts.push(`${result.stats.parseErrors} 个 entity 解析回退`);
     }
 
-    const message = parts.length > 0 ? parts.join("，") : "已完成 Deep Search 标记清理。";
+    const message =
+      parts.length > 0 ? parts.join("，") : "已完成 Deep Research 标记清理。";
     new Notice(message);
   }
 }

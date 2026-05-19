@@ -1,5 +1,5 @@
 ---
-title: Deep Search Sample
+title: Deep Research Sample
 ---
 
 # 市场估值摘要

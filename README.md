@@ -1,8 +1,8 @@
-# Deep Search Formatter
+# Deep Research Formatter
 
-Deep Search Formatter is an Obsidian plugin for cleaning Markdown exported from ChatGPT Deep Search.
+Deep Research Formatter is an Obsidian plugin for cleaning Markdown exported from ChatGPT Deep Research.
 
-Deep Search exports often contain inline marker tokens such as citation, entity, and URL annotations that are readable inside ChatGPT but noisy in plain Markdown. This plugin removes or rewrites those markers so the document is easier to read in Obsidian.
+Deep Research exports often contain inline marker tokens such as citation, entity, and URL annotations that are readable inside ChatGPT but noisy in plain Markdown. This plugin removes or rewrites those markers so the document is easier to read in Obsidian.
 
 ## What it does
 
@@ -22,7 +22,8 @@ Deep Search exports often contain inline marker tokens such as citation, entity,
 ## Project layout
 
 - `src/`: plugin source code
-- `tests/`: automated tests and checked-in fixtures
+- `examples/`: sample Deep Research Markdown exports
+- `tests/`: automated tests
 - `manifest.json`: Obsidian plugin manifest
 - `versions.json`: Obsidian version compatibility map
 - `main.js`: compiled plugin entry file
@@ -70,7 +71,7 @@ npx tsc --noEmit
 3. Create this plugin directory if it does not already exist:
 
 ```text
-<your-vault>/.obsidian/plugins/deep-search-formatter/
+<your-vault>/.obsidian/plugins/deep-research-formatter/
 ```
 
 4. Copy these files into that directory:
@@ -83,26 +84,26 @@ versions.json
 
 5. In Obsidian, open `Settings` -> `Community plugins`.
 6. Turn off `Restricted mode` if needed.
-7. Enable `Deep Search Formatter`.
+7. Enable `Deep Research Formatter`.
 
 ## Usage
 
-Open a Markdown note exported from Deep Search, then use the Command Palette in Obsidian.
+Open a Markdown note exported from Deep Research, then use the Command Palette in Obsidian.
 
 Available commands:
 
-- `清理当前笔记中的 Deep Search 标记`
-- `清理当前选区中的 Deep Search 标记`
+- `清理当前笔记中的 Deep Research 标记`
+- `清理当前选区中的 Deep Research 标记`
 
 Command behavior:
 
 - The first command cleans the entire active Markdown note.
 - The second command cleans only the current editor selection.
-- If no Deep Search markers are found, the plugin shows a notice and does nothing.
+- If no Deep Research markers are found, the plugin shows a notice and does nothing.
 
 ## Current marker handling
 
-The current implementation recognizes the marker wrapper used in Deep Search exports and handles these marker types:
+The current implementation recognizes the marker wrapper used in Deep Research exports and handles these marker types:
 
 - `cite`: removed
 - `entity`: replaced with readable text
@@ -112,4 +113,4 @@ The current implementation recognizes the marker wrapper used in Deep Search exp
 ## Notes
 
 - This plugin is intentionally conservative. It does not try to reformat the whole Markdown document.
-- It focuses on Deep Search marker cleanup only.
+- It focuses on Deep Research marker cleanup only.

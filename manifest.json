@@ -1,9 +1,9 @@
 {
-  "id": "deep-search-formatter",
-  "name": "Deep Search Formatter",
+  "id": "deep-research-formatter",
+  "name": "Deep Research Formatter",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
-  "description": "Normalize Deep Search markdown exports by removing unreadable inline markers.",
+  "description": "Normalize ChatGPT Deep Research markdown exports by removing unreadable inline markers.",
   "author": "Longxiao Zhang",
   "isDesktopOnly": false
 }
