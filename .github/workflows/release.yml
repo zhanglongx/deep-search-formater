@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  attestations: write
+  id-token: write
 
 jobs:
   release:
@@ -83,6 +85,13 @@ jobs:
           if [ -f styles.css ]; then
             cp styles.css release/styles.css
           fi
+
+      - name: Attest release assets
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            release/main.js
+            release/manifest.json
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
