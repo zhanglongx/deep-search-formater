@@ -166,6 +166,18 @@ function normalizeInlineContent(line: string, stats: NormalizeStats): Normalized
       continue;
     }
 
+    if (line[index] === "【") {
+      const closingIndex = line.indexOf("】", index + 1);
+      if (closingIndex !== -1) {
+        const token = line.slice(index + 1, closingIndex);
+        if (token.includes("†")) {
+          output += `${TOKEN_BOUNDARY}${removeCiteMarker(stats)}${TOKEN_BOUNDARY}`;
+          index = closingIndex + 1;
+          continue;
+        }
+      }
+    }
+
     if (line[index] !== TOKEN_START) {
       output += line[index];
       index += 1;
@@ -202,8 +214,7 @@ function normalizeToken(token: string, stats: NormalizeStats): string {
 
   switch (tag) {
     case "cite":
-      stats.citeRemoved += 1;
-      return "";
+      return removeCiteMarker(stats);
     case "entity":
       return replaceEntityToken(payloads, stats);
     case "url":
@@ -211,6 +222,11 @@ function normalizeToken(token: string, stats: NormalizeStats): string {
     default:
       return replaceUnknownToken(payloads, stats);
   }
+}
+
+function removeCiteMarker(stats: NormalizeStats): string {
+  stats.citeRemoved += 1;
+  return "";
 }
 
 function replaceEntityToken(payloads: string[], stats: NormalizeStats): string {
